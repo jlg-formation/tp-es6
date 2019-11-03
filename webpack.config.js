@@ -2,6 +2,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: ['./src/main.js', './src/style.css'],
@@ -18,6 +19,9 @@ module.exports = {
       chunkFilename: '[id].css',
       ignoreOrder: false,
     }),
+    new CopyWebpackPlugin([
+      { from: './src/assets', to: 'assets' },
+    ]),
   ],
   module: {
     rules: [
