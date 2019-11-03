@@ -4,7 +4,10 @@ module.exports = {
     "es6": true,
     "node": true
   },
-  "extends": "eslint:recommended",
+  "plugins": ["prettier"],
+  "extends": [
+    "plugin:prettier/recommended"
+  ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -14,7 +17,6 @@ module.exports = {
     "sourceType": "module"
   },
   "rules": {
-    "semi": ["error", "always"],
-    "quotes": ["error", "single"]
+    "prettier/prettier": "error"
   }
 };
