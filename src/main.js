@@ -15,8 +15,6 @@ function main() {
   const menu = new Menu('aside');
   menu.add('button.addLine', addLine);
   menu.add('button.clean', cleanAll);
-
-
 }
 
 main();
