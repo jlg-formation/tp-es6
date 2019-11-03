@@ -1,0 +1,15 @@
+button {
+  border: 1px solid #eee;
+  background: #eee;
+  padding: 0.5em;
+}
+
+button:not(:disabled):hover {
+  border: 1px solid #ddd;
+  background: #ddd;
+}
+
+button:not(:disabled):active {
+  border: 1px solid #ccc;
+  background: #ccc;
+}
