@@ -1,3 +1,4 @@
-h1 {
-  color: blue;
-}
+@import '../node_modules/normalize.css/normalize.css';
+@import './css/reset.css';
+@import './css/layout.css';
+
