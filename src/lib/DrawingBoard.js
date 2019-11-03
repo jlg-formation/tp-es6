@@ -1,7 +1,6 @@
 import { Mode } from './Mode';
 
 export class DrawingBoard {
-
   constructor(selector) {
     this.elt = document.querySelector(selector);
     this.mode = Mode.DEFAULT;
@@ -20,5 +19,4 @@ export class DrawingBoard {
   refreshMode() {
     this.modeElt.innerHTML = this.mode;
   }
-
 }
