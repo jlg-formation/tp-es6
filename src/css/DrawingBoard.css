@@ -1,0 +1,10 @@
+.drawing-board {
+  display: flex;
+  flex-flow: column;
+}
+
+.drawing-board svg {
+  background: #eee;
+  width: 100%;
+  flex-grow: 1;
+}
