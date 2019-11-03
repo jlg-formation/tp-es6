@@ -1,11 +1,11 @@
 'use strict';
 
 import { Menu } from "./lib/Menu";
+import { Header } from "./lib/Header";
 
 function main() {
   console.log('starting');
-  const title = 'SVG Editor';
-  document.querySelector('header span.title').innerHTML = title;
+  new Header().setTitle('The SVG Editor')
 
   const addLine = () => console.log('addLine');
   const cleanAll = () => console.log('cleanAll');
