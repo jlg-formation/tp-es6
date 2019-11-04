@@ -19,9 +19,7 @@ module.exports = {
       chunkFilename: '[id].css',
       ignoreOrder: false,
     }),
-    new CopyWebpackPlugin([
-      { from: './src/assets', to: 'assets' },
-    ]),
+    new CopyWebpackPlugin([{ from: './src/assets', to: 'assets' }])
   ],
   module: {
     rules: [
