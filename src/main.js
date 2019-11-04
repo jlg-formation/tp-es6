@@ -1,6 +1,7 @@
 import { Menu } from './lib/Menu';
 import { Header } from './lib/Header';
 import { DrawingBoard } from './lib/DrawingBoard';
+import { Line } from './lib/widget/Line';
 
 function main() {
   console.log('starting');
@@ -9,7 +10,7 @@ function main() {
   const board = new DrawingBoard('main');
   console.log('board: ', board);
 
-  const addLine = () => console.log('addLine');
+  const addLine = () => board.prepareForInsert(new Line(board));
   const cleanAll = () => console.log('cleanAll');
 
   const menu = new Menu('aside');
