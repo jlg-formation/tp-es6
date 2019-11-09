@@ -1,9 +1,10 @@
 // abstract class
 export class Widget {
-  constructor() {
+  constructor(board) {
     if (new.target === Widget) {
       throw new TypeError('Cannot instantiate Widget (abstract class)');
     }
+    this.board = board;
   }
 
   depose() {
@@ -15,7 +16,7 @@ export class Widget {
   }
 
   unselect() {
-    throw new Error('To be implemented');
+    this.board.removeAllEditionPoint();
   }
 
   edit(pointName, orig, delta) {

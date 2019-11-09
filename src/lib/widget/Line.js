@@ -5,8 +5,7 @@ import { Widget } from './Widget';
 
 export class Line extends Widget {
   constructor(board) {
-    super();
-    this.board = board;
+    super(board);
     this.elt = undefined;
     this.selectableElt = undefined;
   }
@@ -48,10 +47,6 @@ export class Line extends Widget {
     this.board.removeAllEditionPoint();
     this.board.addEditionPoint('start', this.x1, this.y1, new WidgetEdit(this, 'start').getEditCallback());
     this.board.addEditionPoint('end', this.x2, this.y2, new WidgetEdit(this, 'end').getEditCallback());
-  }
-
-  unselect() {
-    this.board.removeAllEditionPoint();
   }
 
   edit(pointName, orig, delta) {
