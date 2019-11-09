@@ -10,7 +10,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
   },
-  devtool: 'inline-source-map',
+  devtool: process.env.NODE_ENV === 'development' ? 'inline-source-map' : 'none',
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({ template: './src/index.html' }),
