@@ -4,6 +4,7 @@ export class Line {
   constructor(board) {
     this.board = board;
     this.elt = undefined;
+    this.selectableElt = undefined;
   }
 
   depose(event) {
@@ -20,7 +21,34 @@ export class Line {
     line.setAttribute('y1', this.y1);
     line.setAttribute('y2', this.y2);
     line.setAttribute('stroke', 'black');
-    this.board.svg.appendChild(line);
+    this.board.content.appendChild(line);
     this.elt = line;
+
+    // selectable
+    const selectableLine = document.createElementNS(SVGNS, 'line');
+    selectableLine.setAttribute('x1', this.x1);
+    selectableLine.setAttribute('x2', this.x2);
+    selectableLine.setAttribute('y1', this.y1);
+    selectableLine.setAttribute('y2', this.y2);
+    selectableLine.setAttribute('stroke', 'transparent');
+    selectableLine.setAttribute('stroke-width', '20');
+    selectableLine.setAttribute('fill', 'transparent');
+    selectableLine.addEventListener(
+      'click',
+      this.board.selectFromClickEvent(this)
+    );
+    this.board.selectable.appendChild(selectableLine);
+    this.selectableElt = selectableLine;
+  }
+
+  select() {
+    // add move point to 2 extremities.
+    this.board.removeAllEditionPoint();
+    this.board.addEditionPoint('start', this.x1, this.y1);
+    this.board.addEditionPoint('end', this.x2, this.y2);
+  }
+
+  unselect() {
+    this.board.removeAllEditionPoint();
   }
 }

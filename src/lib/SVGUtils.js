@@ -8,4 +8,17 @@ export class SVGUtils {
     const y = event.clientY - dim.top;
     return { x, y };
   }
+
+  static addGroup(parent, name) {
+    const group = document.createElementNS(SVGNS, 'g');
+    group.setAttribute('class', name);
+    parent.appendChild(group);
+    return group;
+  }
+
+  static removeAllChildren(group) {
+    while (group.firstChild) {
+      group.removeChild(group.firstChild);
+    }
+  }
 }

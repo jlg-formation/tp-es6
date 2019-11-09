@@ -1,4 +1,6 @@
 import { Mode, printMode } from './Mode';
+import { SVGUtils } from './SVGUtils';
+import { EditionPoint } from './EditionPoint';
 
 export class DrawingBoard {
   constructor(selector) {
@@ -16,6 +18,11 @@ export class DrawingBoard {
 
     // onclick
     this.svg.addEventListener('click', this.onClick.bind(this));
+
+    // adding 3 groups for the editor :
+    this.content = SVGUtils.addGroup(this.svg, 'content'); // where the real SVG stuff are
+    this.selectable = SVGUtils.addGroup(this.svg, 'selectable'); // the selection areas
+    this.edition = SVGUtils.addGroup(this.svg, 'edition'); // where the edition points will be
   }
 
   set mode(val) {
@@ -43,5 +50,33 @@ export class DrawingBoard {
       this.mode = Mode.DEFAULT;
       return;
     }
+    if (this.mode === Mode.WIDGET_SELECTED) {
+      this.widget.unselect();
+      this.mode = Mode.DEFAULT;
+      return;
+    }
+  }
+
+  selectFromClickEvent(widget) {
+    return event => {
+      // important for not unselecting just after selecting.
+      event.stopPropagation();
+      this.select(widget);
+    };
+  }
+
+  select(widget) {
+    this.mode = Mode.WIDGET_SELECTED;
+    this.widget = widget;
+    this.widget.select();
+  }
+
+  addEditionPoint(label, x, y) {
+    const group = new EditionPoint(x, y, { label }).group;
+    this.edition.appendChild(group);
+  }
+
+  removeAllEditionPoint() {
+    SVGUtils.removeAllChildren(this.edition);
   }
 }

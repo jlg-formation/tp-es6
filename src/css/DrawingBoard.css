@@ -8,3 +8,11 @@
   width: 100%;
   flex-grow: 1;
 }
+
+.drawing-board.mode-widget-insert {
+  cursor: crosshair;
+}
+
+.drawing-board .selectable {
+  cursor: pointer;
+}
