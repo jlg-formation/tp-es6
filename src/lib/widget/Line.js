@@ -1,9 +1,11 @@
 import { SVGUtils, SVGNS } from '../SVGUtils';
 import { WidgetEdit } from '../WidgetEdit';
 import { WidgetMove } from '../WidgetMove';
+import { Widget } from './Widget';
 
-export class Line {
+export class Line extends Widget {
   constructor(board) {
+    super();
     this.board = board;
     this.elt = undefined;
     this.selectableElt = undefined;
@@ -78,14 +80,6 @@ export class Line {
       editionPointElt.setAttribute('cx', this.x2);
       editionPointElt.setAttribute('cy', this.y2);
     }
-  }
-
-  getType() {
-    return 'line';
-  }
-
-  getOrigin() {
-    return { ...this };
   }
 
   move(orig, delta) {
