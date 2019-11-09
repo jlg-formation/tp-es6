@@ -2,6 +2,11 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
+if (PRODUCTION) {
+  console.log('production mode');
+  console.log = () => {};
+}
+
 import { Menu } from './lib/Menu';
 import { Header } from './lib/Header';
 import { DrawingBoard } from './lib/DrawingBoard';
