@@ -1,3 +1,7 @@
+// Babel polyfill
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 import { Menu } from './lib/Menu';
 import { Header } from './lib/Header';
 import { DrawingBoard } from './lib/DrawingBoard';

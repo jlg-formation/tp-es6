@@ -4,45 +4,60 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = {
-  entry: ['./src/main.js', './src/style.css'],
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
-  },
-  devtool: process.env.NODE_ENV === 'development' ? 'inline-source-map' : 'none',
-  plugins: [
-    new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({ template: './src/index.html' }),
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css',
-      ignoreOrder: false,
-    }),
-    new CopyWebpackPlugin([{ from: './src/assets', to: 'assets' }])
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
+
+
+module.exports = (env, argv) => {
+  console.log('mode', argv.mode); // outputs development
+  return {
+    entry: ['./src/main.js', './src/style.css'],
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: 'bundle.js',
+    },
+    devtool: argv.mode === 'development' ? 'inline-source-map' : 'none',
+    plugins: [
+      new CleanWebpackPlugin(),
+      new HtmlWebpackPlugin({ template: './src/index.html' }),
+      new MiniCssExtractPlugin({
+        filename: '[name].css',
+        chunkFilename: '[id].css',
+        ignoreOrder: false,
+      }),
+      new CopyWebpackPlugin([{ from: './src/assets', to: 'assets' }]),
+    ],
+    module: {
+      rules: [
+        {
+          test: /\.m?js$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
             options: {
-              publicPath: '../',
-              hmr: process.env.NODE_ENV === 'development',
+              presets: ['@babel/preset-env'],
             },
           },
-          'css-loader',
-        ],
-      },
-    ],
-  },
-  devServer: {
-    stats: {
-      children: false, // Hide children information
-      maxModules: 0, // Set the maximum number of modules to be shown
+        },
+        {
+          test: /\.css$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: '../',
+                hmr: argv.mode === 'development',
+              },
+            },
+            'css-loader',
+          ],
+        },
+      ],
     },
-    port: 3001,
-  },
+    devServer: {
+      stats: {
+        children: false, // Hide children information
+        maxModules: 0, // Set the maximum number of modules to be shown
+      },
+      port: 3001,
+    },
+  };
 };
