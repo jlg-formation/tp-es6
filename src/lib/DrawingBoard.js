@@ -87,4 +87,10 @@ export class DrawingBoard {
   getEditionPointElt(label) {
     return this.edition.querySelector(`g.${label} circle`);
   }
+
+  clean() {
+    SVGUtils.removeAllChildren(this.content);
+    SVGUtils.removeAllChildren(this.selectable);
+    SVGUtils.removeAllChildren(this.edition);
+  }
 }

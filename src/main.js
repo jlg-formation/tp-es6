@@ -11,7 +11,7 @@ function main() {
   console.log('board: ', board);
 
   const addLine = () => board.prepareForInsert(new Line(board));
-  const cleanAll = () => console.log('cleanAll');
+  const cleanAll = board.clean.bind(board);
 
   const menu = new Menu('aside');
   menu.add('button.addLine', addLine);
