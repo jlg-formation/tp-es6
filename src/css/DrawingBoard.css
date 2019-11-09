@@ -16,3 +16,7 @@
 .drawing-board .selectable {
   cursor: pointer;
 }
+
+.drawing-board .clickable {
+  cursor: pointer;
+}

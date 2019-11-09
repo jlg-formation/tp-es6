@@ -1,4 +1,5 @@
 import { SVGUtils, SVGNS } from '../SVGUtils';
+import { WidgetEdit } from '../WidgetEdit';
 
 export class Line {
   constructor(board) {
@@ -33,10 +34,7 @@ export class Line {
     selectableLine.setAttribute('stroke', 'transparent');
     selectableLine.setAttribute('stroke-width', '20');
     selectableLine.setAttribute('fill', 'transparent');
-    selectableLine.addEventListener(
-      'click',
-      this.board.selectFromClickEvent(this)
-    );
+    selectableLine.addEventListener('click', this.board.selectFromClickEvent(this));
     this.board.selectable.appendChild(selectableLine);
     this.selectableElt = selectableLine;
   }
@@ -44,11 +42,47 @@ export class Line {
   select() {
     // add move point to 2 extremities.
     this.board.removeAllEditionPoint();
-    this.board.addEditionPoint('start', this.x1, this.y1);
-    this.board.addEditionPoint('end', this.x2, this.y2);
+    this.board.addEditionPoint('start', this.x1, this.y1, new WidgetEdit(this, 'start').getEditCallback());
+    this.board.addEditionPoint('end', this.x2, this.y2, new WidgetEdit(this, 'end').getEditCallback());
   }
 
   unselect() {
     this.board.removeAllEditionPoint();
+  }
+
+  edit(pointName, orig, delta) {
+    console.log('pointName: ', pointName);
+    console.log('orig: ', orig);
+    console.log('delta: ', delta);
+    if (pointName === 'start') {
+      this.x1 = delta.x + orig.x1;
+      this.y1 = delta.y + orig.y1;
+      this.elt.setAttribute('x1', this.x1);
+      this.elt.setAttribute('y1', this.y1);
+      this.selectableElt.setAttribute('x1', this.x1);
+      this.selectableElt.setAttribute('y1', this.y1);
+      const editionPointElt = this.board.getEditionPointElt(pointName);
+      editionPointElt.setAttribute('cx', this.x1);
+      editionPointElt.setAttribute('cy', this.y1);
+    }
+    if (pointName === 'end') {
+      this.x2 = delta.x + orig.x2;
+      this.y2 = delta.y + orig.y2;
+      this.elt.setAttribute('x2', this.x2);
+      this.elt.setAttribute('y2', this.y2);
+      this.selectableElt.setAttribute('x2', this.x2);
+      this.selectableElt.setAttribute('y2', this.y2);
+      const editionPointElt = this.board.getEditionPointElt(pointName);
+      editionPointElt.setAttribute('cx', this.x2);
+      editionPointElt.setAttribute('cy', this.y2);
+    }
+  }
+
+  getType() {
+    return 'line';
+  }
+
+  getOrigin() {
+    return { ...this };
   }
 }

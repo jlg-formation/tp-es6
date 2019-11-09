@@ -55,6 +55,10 @@ export class DrawingBoard {
       this.mode = Mode.DEFAULT;
       return;
     }
+    if (this.mode === Mode.WIDGET_EDITING) {
+      this.mode = Mode.WIDGET_SELECTED;
+      return;
+    }
   }
 
   selectFromClickEvent(widget) {
@@ -71,12 +75,16 @@ export class DrawingBoard {
     this.widget.select();
   }
 
-  addEditionPoint(label, x, y) {
-    const group = new EditionPoint(x, y, { label }).group;
+  addEditionPoint(label, x, y, onClickFn) {
+    const group = new EditionPoint(x, y, { label, onMouseDownFn: onClickFn }).group;
     this.edition.appendChild(group);
   }
 
   removeAllEditionPoint() {
     SVGUtils.removeAllChildren(this.edition);
+  }
+
+  getEditionPointElt(label) {
+    return this.edition.querySelector(`g.${label} circle`);
   }
 }
