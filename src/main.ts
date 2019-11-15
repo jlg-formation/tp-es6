@@ -2,6 +2,10 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
+declare global {
+  const PRODUCTION: boolean;
+}
+
 if (PRODUCTION) {
   console.log('production mode');
   console.log = () => {};

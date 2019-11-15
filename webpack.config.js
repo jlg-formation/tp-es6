@@ -8,7 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = (env, argv) => {
   console.log('mode', argv.mode); // outputs development
   return {
-    entry: ['./src/main.js', './src/style.css'],
+    entry: ['./src/main.ts', './src/style.css'],
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: 'bundle.js',
@@ -27,8 +27,16 @@ module.exports = (env, argv) => {
         PRODUCTION: argv.mode === 'production',
       }),
     ],
+    resolve: {
+      extensions: ['.tsx', '.ts', '.js'],
+    },
     module: {
       rules: [
+        {
+          test: /\.tsx?$/,
+          use: 'ts-loader',
+          exclude: /node_modules/,
+        },
         {
           test: /\.m?js$/,
           exclude: /(node_modules|bower_components)/,
