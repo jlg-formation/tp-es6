@@ -1,13 +1,11 @@
-// abstract class
-export class Widget {
-  constructor(board) {
-    if (new.target === Widget) {
-      throw new TypeError('Cannot instantiate Widget (abstract class)');
-    }
-    this.board = board;
-  }
+import { DrawingBoard } from '../DrawingBoard';
+import { Vector } from '../interface/Vector';
 
-  depose() {
+// abstract class
+export abstract class Widget {
+  constructor(protected board: DrawingBoard) {}
+
+  depose(event: Event) {
     throw new Error('To be implemented');
   }
 
@@ -19,7 +17,7 @@ export class Widget {
     this.board.removeAllEditionPoint();
   }
 
-  edit(pointName, orig, delta) {
+  edit(pointName: string, orig: any, delta: Vector) {
     throw new Error('To be implemented');
   }
 
@@ -31,7 +29,7 @@ export class Widget {
     return { ...this };
   }
 
-  move(orig, delta) {
+  move(orig: any, delta: Vector) {
     throw new Error('To be implemented');
   }
 }

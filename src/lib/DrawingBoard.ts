@@ -1,9 +1,19 @@
 import { Mode, printMode } from './Mode';
 import { SVGUtils } from './SVGUtils';
 import { EditionPoint } from './EditionPoint';
+import { Widget } from './widget/Widget';
 
 export class DrawingBoard {
-  constructor(selector) {
+  elt: HTMLElement;
+  svg: SVGSVGElement;
+  modeElt: HTMLElement;
+  content: SVGGElement;
+  selectable: SVGGElement;
+  edition: SVGGElement;
+  private _mode: string;
+  widget: Widget;
+
+  constructor(selector: string) {
     this.elt = document.querySelector(selector);
 
     // we add drawing-board class in order to let the DrawingBoard.css file to be applied.
@@ -25,13 +35,13 @@ export class DrawingBoard {
     this.edition = SVGUtils.addGroup(this.svg, 'edition'); // where the edition points will be
   }
 
-  set mode(val) {
+  set mode(val: string) {
     this._mode = val;
     // trigger class update.
     for (const v of Mode) {
       this.elt.classList.remove(v);
     }
-    this.elt.classList.add(val.description);
+    this.elt.classList.add(val);
     this.modeElt.innerHTML = printMode`Actual Mode is ${this._mode}`;
   }
 
@@ -39,12 +49,12 @@ export class DrawingBoard {
     return this._mode;
   }
 
-  prepareForInsert(widget) {
+  prepareForInsert(widget: Widget) {
     this.mode = Mode.WIDGET_INSERT;
     this.widget = widget;
   }
 
-  onClick(event) {
+  onClick(event: Event) {
     if (this.mode === Mode.WIDGET_INSERT) {
       this.widget.depose(event);
       this.mode = Mode.DEFAULT;
@@ -61,21 +71,21 @@ export class DrawingBoard {
     }
   }
 
-  selectFromClickEvent(widget) {
-    return event => {
+  selectFromClickEvent(widget: Widget) {
+    return (event: Event) => {
       // important for not unselecting just after selecting.
       event.stopPropagation();
       this.select(widget);
     };
   }
 
-  select(widget) {
+  select(widget: Widget) {
     this.mode = Mode.WIDGET_SELECTED;
     this.widget = widget;
     this.widget.select();
   }
 
-  addEditionPoint(label, x, y, onClickFn) {
+  addEditionPoint(label: string, x: number, y: number, onClickFn: (evt: Event) => undefined) {
     const group = new EditionPoint(x, y, { label, onMouseDownFn: onClickFn }).group;
     this.edition.appendChild(group);
   }
@@ -84,7 +94,7 @@ export class DrawingBoard {
     SVGUtils.removeAllChildren(this.edition);
   }
 
-  getEditionPointElt(label) {
+  getEditionPointElt(label: string) {
     return this.edition.querySelector(`g.${label} circle`);
   }
 
